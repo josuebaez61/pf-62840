@@ -62,4 +62,8 @@ export class StudentsComponent {
       this.students = this.students.filter((el) => el.id != id);
     }
   }
+
+  onColorUpdated() {
+    console.log('Se actualizo el color de fondo del elemento!');
+  }
 }
