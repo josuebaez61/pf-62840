@@ -12,8 +12,10 @@ import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { SharedModule } from '../../../../shared/shared.module';
+import { StudentDialogFormComponent } from './components/student-dialog-form/student-dialog-form.component';
+import { MatDialogModule } from '@angular/material/dialog';
 @NgModule({
-  declarations: [StudentsComponent],
+  declarations: [StudentsComponent, StudentDialogFormComponent],
   imports: [
     CommonModule,
     StudentsRoutingModule,
@@ -24,6 +26,7 @@ import { SharedModule } from '../../../../shared/shared.module';
     ReactiveFormsModule,
     MatTableModule,
     SharedModule,
+    MatDialogModule,
   ],
   exports: [StudentsComponent],
 })
