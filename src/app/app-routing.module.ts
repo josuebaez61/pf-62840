@@ -27,6 +27,33 @@ const routes: Routes = [
   //       path: 'options':
   //       component: ...
   //     }
+  //     {
+  //       path: 'options':
+  //       component: ...
+  //     }
+  //     {
+  //       path: 'options':
+  //       component: ...
+  //     }
+  //     {
+  //       path: 'options':
+  //       component: ...
+  //     }
+  //     {
+  //       path: 'options':
+  //       component: ...
+  //     }
+  //     {
+  //       path: 'options':
+  //       component: ...
+  //     }
+  //     {
+  //       path: 'options':
+  //       component: ...
+  //     }
+  //     {
+  //       path: 'options':
+  //       component: ...
   //   ]
   // },
   {
