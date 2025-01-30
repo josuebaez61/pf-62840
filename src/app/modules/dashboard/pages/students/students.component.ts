@@ -5,7 +5,17 @@ import { generateRandomString } from '../../../../shared/utils';
 import { MatDialog } from '@angular/material/dialog';
 import { StudentDialogFormComponent } from './components/student-dialog-form/student-dialog-form.component';
 import { StudentsService } from '../../../../core/services/students.service';
-import { first, Subscription, take } from 'rxjs';
+import {
+  concatMap,
+  filter,
+  first,
+  forkJoin,
+  interval,
+  map,
+  Subscription,
+  take,
+  tap,
+} from 'rxjs';
 
 @Component({
   selector: 'app-students',
@@ -24,6 +34,10 @@ export class StudentsComponent implements OnInit, OnDestroy {
 
   studentsSubscription?: Subscription;
 
+  rolesAndFrutas: string[] = [];
+
+  myInterval$ = interval(1000);
+
   constructor(
     private fb: FormBuilder,
     private matDialog: MatDialog,
@@ -37,7 +51,66 @@ export class StudentsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // this.loadStudentsFromPromise()
-    this.loadStudentsFromObs();
+    // this.loadStudentsFromObs();
+    // this.subscribeToInterval();
+    // this.loadFrutasAndRoles();
+    this.loadFrutasWithRoles();
+  }
+
+  loadFrutasWithRoles(): void {
+    this.studentsService
+      .getRoles()
+      .pipe(
+        // primero cargarmos los roles
+        concatMap((roles) =>
+          // segundo cargamos las frutas
+          this.studentsService.getFrutas().pipe(
+            // Aqui tenemos las frutas, y los roles
+            map((frutas) => [...roles, ...frutas])
+          )
+        )
+      )
+      .subscribe({
+        next: (result) => (this.rolesAndFrutas = result),
+      });
+  }
+
+  loadFrutasAndRoles(): void {
+    this.isLoading = true;
+    forkJoin([
+      this.studentsService.getRoles(),
+      this.studentsService.getFrutas(),
+    ]).subscribe({
+      next: (value) => {
+        console.log(`Recibimos roles: `, value[0]);
+        console.log(`Recibimos frutas: `, value[1]);
+      },
+      complete: () => {
+        this.isLoading = false;
+      },
+    });
+  }
+
+  subscribeToInterval(): void {
+    this.studentsService
+      .getInterval()
+      .pipe(
+        take(5),
+        tap((value) =>
+          console.log('El valor antes del primer map es: ', value)
+        ),
+        map((value) => value * 2),
+        tap((value) =>
+          console.log('El valor antes del segundo map es: ', value)
+        ),
+        map((value) => value * 2),
+        filter((value) => value < 8)
+      )
+      .subscribe({
+        next: (value) => {
+          console.log(value);
+        },
+      });
   }
 
   loadStudentsFromObs(): void {
