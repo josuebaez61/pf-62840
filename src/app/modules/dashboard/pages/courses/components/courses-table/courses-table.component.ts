@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Course } from '../../models';
 
 @Component({
   selector: 'app-courses-table',
@@ -8,6 +9,14 @@ import { Component } from '@angular/core';
   styleUrl: './courses-table.component.scss',
 })
 export class CoursesTableComponent {
-  dataSource = [];
-  displayedColumns = ['id', 'name'];
+  @Input()
+  dataSource: Course[] = [];
+
+  @Output()
+  delete = new EventEmitter<string>();
+
+  @Output()
+  edit = new EventEmitter<Course>();
+
+  displayedColumns = ['id', 'name', 'actions'];
 }
