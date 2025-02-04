@@ -4,24 +4,17 @@
     Cuando nosotros utilizamos routerLink y el valor que pasamos NO COMIENZA CON "/"
     quiere decir que vamos a hacer una navegacion relativa
   -->
+
+  @for (item of linkItems; track $index) {
   <a
-    routerLink="home"
+    [routerLink]="item.routerLink"
     routerLinkActive
-    #inicioLink="routerLinkActive"
-    [activated]="inicioLink.isActive"
+    #linkItem="routerLinkActive"
+    [activated]="linkItem.isActive"
     mat-list-item
   >
-    Inicio
+    {{ item.label }}
   </a>
-  <a
-    routerLink="students"
-    mat-list-item
-    routerLinkActive
-    #estudiantesLink="routerLinkActive"
-    [activated]="estudiantesLink.isActive"
-  >
-    Estudiantes
-  </a>
-  <a mat-list-item> Cursos </a>
+  }
   <a (click)="logout()" mat-list-item> Cerrar sesión</a>
 </mat-nav-list>

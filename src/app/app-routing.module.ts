@@ -16,46 +16,6 @@ const routes: Routes = [
     path: 'auth/login',
     component: LoginComponent,
   },
-  // {
-  //   path: 'some-path',
-  //   children: [
-  //     {
-  //       path: 'detail',
-  //       component: ...
-  //     },
-  //     {
-  //       path: 'options':
-  //       component: ...
-  //     }
-  //     {
-  //       path: 'options':
-  //       component: ...
-  //     }
-  //     {
-  //       path: 'options':
-  //       component: ...
-  //     }
-  //     {
-  //       path: 'options':
-  //       component: ...
-  //     }
-  //     {
-  //       path: 'options':
-  //       component: ...
-  //     }
-  //     {
-  //       path: 'options':
-  //       component: ...
-  //     }
-  //     {
-  //       path: 'options':
-  //       component: ...
-  //     }
-  //     {
-  //       path: 'options':
-  //       component: ...
-  //   ]
-  // },
   {
     /** El doble asterisco ("**") es una menera de representar "Todos los paths" */
     path: '**',
