@@ -1,46 +1,67 @@
 import { Injectable } from '@angular/core';
-import { delay, Observable, of } from 'rxjs';
+import { concatMap, Observable } from 'rxjs';
 import { Course } from '../../modules/dashboard/pages/courses/models';
-import { generateRandomString } from '../../shared/utils';
-
-let MY_FAKE_DATABASE: Course[] = [
-  {
-    id: generateRandomString(6),
-    name: 'Javascript',
-  },
-  {
-    id: generateRandomString(6),
-    name: 'Angular',
-  },
-  {
-    id: generateRandomString(6),
-    name: 'RxJs',
-  },
-];
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class CourseService {
-  updateCourseById(id: string, data: { name: string }): Observable<Course[]> {
-    MY_FAKE_DATABASE = MY_FAKE_DATABASE.map((course) =>
-      course.id === id ? { ...course, ...data } : course
+  constructor(private httpClient: HttpClient) {}
+
+  getCourseDetail(id: string): Observable<Course> {
+    return this.httpClient.get<Course>(
+      `${environment.baseApiUrl}/courses/${id}?_embed=teachers`
     );
-    return this.getCourses();
+  }
+
+  updateCourseById(id: string, data: { name: string }): Observable<Course[]> {
+    // MY_FAKE_DATABASE = MY_FAKE_DATABASE.map((course) =>
+    //   course.id === id ? { ...course, ...data } : course
+    // );
+    // return this.getCourses();
+
+    return this.httpClient
+      .patch<Course>(`${environment.baseApiUrl}/courses/${id}`, data)
+      .pipe(concatMap(() => this.getCourses()));
   }
 
   addCourse(payload: { name: string }): Observable<Course[]> {
-    MY_FAKE_DATABASE.push({
-      ...payload,
-      id: generateRandomString(6),
-    });
-    return this.getCourses();
+    // MY_FAKE_DATABASE.push({
+    //   ...payload,
+    //   id: generateRandomString(6),
+    // });
+    // return this.getCourses();
+
+    // Paso 1: Crea el curso
+    return (
+      this.httpClient
+        .post<Course>(`${environment.baseApiUrl}/courses`, payload)
+        // Paso 2: Vuelve a consultar el listado completo de cursos
+        .pipe(concatMap(() => this.getCourses()))
+    );
   }
 
   getCourses(): Observable<Course[]> {
-    return of([...MY_FAKE_DATABASE]).pipe(delay(300));
+    // return of([...MY_FAKE_DATABASE]).pipe(delay(300));
+    const myHeaders = new HttpHeaders().append(
+      'Authorization',
+      localStorage.getItem('access_token') || ''
+    );
+    return this.httpClient.get<Course[]>(`${environment.baseApiUrl}/courses`, {
+      headers: myHeaders,
+    });
   }
 
   deleteCourseById(id: string): Observable<Course[]> {
-    MY_FAKE_DATABASE = MY_FAKE_DATABASE.filter((course) => course.id != id);
-    return this.getCourses();
+    // MY_FAKE_DATABASE = MY_FAKE_DATABASE.filter((course) => course.id != id);
+    // return this.getCourses();
+
+    // Paso 1: Elimina el curso
+    return (
+      this.httpClient
+        .delete<Course>(`${environment.baseApiUrl}/courses/${id}`)
+        // Paso 2: Consulta nuevamente el listado de cursos
+        .pipe(concatMap(() => this.getCourses()))
+    );
   }
 }

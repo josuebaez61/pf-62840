@@ -1,0 +1,27 @@
+{
+  "courses": [
+    {
+      "id": "svDFs3",
+      "name": "Javascript EDITADO"
+    },
+    {
+      "name": "Blender 3D",
+      "id": "svDFj3"
+    },
+    {
+      "id": "a9c9",
+      "name": "Unity"
+    },
+    {
+      "id": "d71d",
+      "name": "CorelDraw"
+    }
+  ],
+  "teachers": [
+    {
+      "id": "sdjv4",
+      "name": "Kakashi Sensei",
+      "courseId": "a9c9"
+    }
+  ]
+}
