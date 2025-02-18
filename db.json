@@ -1,4 +1,22 @@
 {
+  "users": [
+    {
+      "id": "vnD3s",
+      "email": "admin@email.com",
+      "password": "123456",
+      "name": "Administrador",
+      "accessToken": "djMDFJNdfmvcJKDFdsmd23GFuedsvFGD2d32",
+      "role": "ADMIN"
+    },
+    {
+      "id": "avs3D",
+      "email": "employee@email.com",
+      "password": "123456",
+      "name": "Empleado",
+      "accessToken": "djMDFJNd3gngh61DFd56hhgfddd23GFue232",
+      "role": "EMPLOYEE"
+    }
+  ],
   "courses": [
     {
       "id": "svDFs3",
