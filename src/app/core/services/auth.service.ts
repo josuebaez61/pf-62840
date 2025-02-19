@@ -32,7 +32,7 @@ export class AuthService {
     this.router.navigate(['auth', 'login']);
   }
 
-  login(payload: LoginPayload): void {
+  login(payload: LoginPayload, next?: () => void): void {
     this.httpClient
       .get<User[]>(
         `${environment.baseApiUrl}/users?email=${payload.email}&password=${payload.password}`
@@ -41,7 +41,6 @@ export class AuthService {
         next: (usersResult) => {
           if (!usersResult[0]) {
             alert('Email o password invalidos');
-            return;
           } else {
             // Si login es satisfactorio
             localStorage.setItem('access_token', usersResult[0].accessToken);
@@ -49,6 +48,10 @@ export class AuthService {
               AuthActions.setAuthUser({ user: usersResult[0] })
             );
             this.router.navigate(['dashboard', 'home']);
+          }
+
+          if (!!next) {
+            next();
           }
         },
         error: (err) => {
